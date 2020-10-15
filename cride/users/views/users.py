@@ -28,8 +28,8 @@ from cride.circles.models import Circle
 
 
 class UserViewSet(mixins.RetrieveModelMixin,
-                  mixins.UpdateModelMixin,
-                  viewsets.GenericViewSet):
+                    mixins.UpdateModelMixin,
+                    viewsets.GenericViewSet):
     """User view set.
 
     Handle sign up, login and account verification.

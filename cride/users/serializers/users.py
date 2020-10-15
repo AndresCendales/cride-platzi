@@ -7,8 +7,11 @@ from django.core.validators import RegexValidator
 
 # Django REST Framework
 from rest_framework import serializers
-from rest_framework.authtoken.models import Token
+from knox.models import AuthToken
 from rest_framework.validators import UniqueValidator
+
+# Django Rest Knox
+from knox.settings import knox_settings
 
 # Models
 from cride.users.models import User, Profile
@@ -110,10 +113,16 @@ class UserLoginSerializer(serializers.Serializer):
         return data
 
     def create(self, data):
-        """Generate or retrieve new token."""
-        token, created = Token.objects.get_or_create(user=self.context['user'])
-        return self.context['user'], token.key
+        """Generate new token."""
+        
+        instance, token = AuthToken.objects.create(user=self.context['user'])
 
+        token_data = {
+            'token': token,
+            'expiry': instance.expiry,
+            'message': 'This token will expire after 1 hour without use'
+        }
+        return self.context['user'], token_data
 
 class AccountVerificationSerializer(serializers.Serializer):
     """Account verification serializer."""
