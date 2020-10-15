@@ -4,7 +4,6 @@ import environ
 
 # Django Rest Knox
 from datetime import timedelta
-from rest_framework.settings import api_settings
 
 ROOT_DIR = environ.Path(__file__) - 3
 APPS_DIR = ROOT_DIR.path('cride')
